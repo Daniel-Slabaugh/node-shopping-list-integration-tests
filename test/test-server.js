@@ -144,10 +144,6 @@ describe('Shopping List', function() {
 }); 
 
 
-
-
-
-
 describe('Recipes', function() {
 
   before(function() {
@@ -157,7 +153,6 @@ describe('Recipes', function() {
   after(function() {
     return closeServer();
   });
-
 
   it('should list items on GET', function() {
     return chai.request(app)
@@ -175,10 +170,9 @@ describe('Recipes', function() {
         });
       });
   });
-
  
   it('should add an item on POST', function() {
-    const newItem = {name: 'coffee', checked: false};
+    const newItem = {name: 'coffee', ingredients: ['flour', 'eggs', 'yeast']};
     return chai.request(app)
       .post('/recipes')
       .send(newItem)
@@ -192,12 +186,11 @@ describe('Recipes', function() {
       });
   });
 
-
   it('should update items on PUT', function() {
 
     const updateData = {
       name: 'foo',
-      ingredients: {"milk", "chocolate"}
+      ingredients: ["milk", "chocolate"]
     };
 
     return chai.request(app)
@@ -205,7 +198,7 @@ describe('Recipes', function() {
       .then(function(res) {
         updateData.id = res.body[0].id;
         return chai.request(app)
-          .put(`/shopping-list/${updateData.id}`)
+          .put(`/recipes/${updateData.id}`)
           .send(updateData);
       })
       .then(function(res) {
